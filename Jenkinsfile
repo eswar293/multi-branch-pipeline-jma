@@ -39,10 +39,10 @@ pipeline {
             }
 
         }
-        post {
-            success {
-                echo "Build sucess in $BRANCH_NAME"
+            post {
+                success {
+                    echo "Build sucess in $BRANCH_NAME"
+                }
             }
-        }
     }
 }
