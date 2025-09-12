@@ -1,40 +1,42 @@
-def gv
 
 pipeline {
     agent any
-    tools {
-        maven "maven3.9"
-    }
 
     stages {
-        stage ("init") {
+        stage("Test") {
             steps {
                 script {
-                    gv = load "script.groovy"
+                    echo "Testing application ..."
+                    ecgo "Executing pipeline for $BRANCH_NAME"
                 }
             }
-        }
-        stage ("build jar") {
-            steps {
-                script {
-                    gv.buildjar ()
-                }
-            }
-        }
-        stage ("build docker image") {
-            steps {
-                script {
-                    gv.buildDockerImage()
-                }
 
-            }
         }
-        stage ("Deploying Appliction") {
+        stage("Build") {
             steps {
                 script {
-                    gv.deployApp()
+                    when{
+                        expression{
+                            BRANCH_NAME == "maiin"
+                        }
+                    }
+                    echo "Building application ..."
                 }
             }
+
+        }
+        stage("Deploy") {
+            steps {
+                script {
+                    echo "Deploying application ..."
+                    when{
+                        expression{
+                            BRANCH_NAME == "maiin"
+                        }
+                    }
+                }
+            }
+
         }
     }
 }
