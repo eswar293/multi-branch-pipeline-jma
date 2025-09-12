@@ -42,6 +42,9 @@ pipeline {
                 success {
                     echo "Build sucess in $BRANCH_NAME"
                 }
+                failure {
+                    echo "Build failed in $BRANCH_NAME"
+                }
             }
 
         }
