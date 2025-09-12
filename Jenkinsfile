@@ -15,8 +15,8 @@ pipeline {
         stage("Build") {
             steps {
                 script {
-                    when{
-                        expression{
+                    when {
+                        expression {
                             BRANCH_NAME == "maiin"
                         }
                     }
@@ -29,8 +29,8 @@ pipeline {
             steps {
                 script {
                     echo "Deploying application ..."
-                    when{
-                        expression{
+                    when {
+                        expression {
                             BRANCH_NAME == "maiin"
                         }
                     }
