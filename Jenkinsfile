@@ -7,7 +7,7 @@ pipeline {
             steps {
                 script {
                     echo "Testing application ..."
-                    ecgo "Executing pipeline for $BRANCH_NAME"
+                    echo "Executing pipeline for $BRANCH_NAME"
                 }
             }
 
