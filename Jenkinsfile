@@ -1,52 +1,43 @@
+#! /user/bin/env groovy
+
+@Library('Jenkins-shared-library')
+def gv
 
 pipeline {
     agent any
+    tools {
+        maven "maven3.9"
+    }
 
     stages {
-        stage("Test") {
+        stage ("init") {
             steps {
                 script {
-                    echo "Testing application ..."
-                    echo "Executing pipeline for $BRANCH_NAME"
+                    gv = load "script.groovy"
                 }
             }
-
         }
-        stage("Build") {
-            when {
-                expression {
-                    BRANCH_NAME == "main"
-                }
-            }
+        stage ("build jar") {
             steps {
                 script {
-                    echo "Building application ..."
+                    buildjar ()
                 }
             }
-
         }
-        stage("Deploy") {
-            when {
-                expression {
-                    BRANCH_NAME == "main"
-                }
-            }
+        stage ("build docker image") {
             steps {
                 script {
-                    echo "Deploying application ..."
-                
+                    buildImage()
+                }
+
+            }
+        }
+        stage ("Deploying Appliction") {
+            steps {
+                script {
+                    gv.deployApp()
                 }
             }
-
-            post {
-                success {
-                    echo "Build sucess in $BRANCH_NAME"
-                }
-                failure {
-                    echo "Build failed in $BRANCH_NAME"
-                }
-            }
-
         }
     }
 }
